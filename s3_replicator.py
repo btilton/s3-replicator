@@ -60,7 +60,7 @@ def main(one_off):
                 print "Uploading cache to s3"
                 sys.stdout.flush()
                 sourceclient.upload_file(
-                    Bucket='xad-sre-backups',
+                    Bucket=backup_bucket,
                     Key='s3-replicator/s3_replicator_mcache.pickle',
                     Filename='utils/s3_replicator_mcache.pickle')
         if one_off:
@@ -239,9 +239,10 @@ q = Queue()
 pq = Queue()
 
 # Cache init
+backup_bucket = 'my-bucket'
 if not path.isfile('utils/s3_replicator_mcache.pickle'):
     try:
-        sourceclient.download_file(Bucket='xad-sre-backups',
+        sourceclient.download_file(Bucket=backup_bucket,
                                Key='s3-replicator/s3_replicator_mcache.pickle',
                                Filename='utils/s3_replicator_mcache.pickle')
     except:
